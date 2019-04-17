@@ -9,6 +9,5 @@
       interceptors/simplify))
 
 (defn eql
-  [{:pathom/keys [parser]}
-   query]
-  (async/<!! (parser {} query)))
+  [{:pathom/keys [parser env]} query]
+  (parser env query))

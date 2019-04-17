@@ -12,6 +12,7 @@
    :db.type/boolean 'Boolean
    :db.type/double  'Float
    :java.lang.Long  'Float
+   :db.type/long    'Float
    :db.type/float   'Float
    :db.type/instant 'String
    :db.type/uuid    'ID

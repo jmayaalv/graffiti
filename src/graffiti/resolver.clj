@@ -24,8 +24,8 @@
     m))
 
 (defn resolver-results
-  [parser options eql-query]
-  (->> (query/eql {:pathom/parser parser} eql-query)
+  [ctx options eql-query]
+  (->> (query/eql (select-keys ctx [:pathom/parser :pathom/env]) eql-query)
        vals
        (map #(eql/as-tree options %))
        (reduce merge)
@@ -42,7 +42,7 @@
                          ex/selections-tree
                          (eql/from-selection-tree options))
           eql-query [{ident fields}]]
-      (resolver-results parser options eql-query))))
+      (resolver-results mesh options eql-query))))
 
 (defn conform-config
   [config]

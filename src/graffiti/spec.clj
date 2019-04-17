@@ -1,8 +1,6 @@
 (ns graffiti.spec
   (:require [clojure.spec.alpha :as s]
             [graffiti.core :as g]
-            [graffiti.db :as db]
-            [clojure.test :as t]
             [graffiti.schema.spec :as ss]
             [quark.collection.map :as map]))
 
