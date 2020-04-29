@@ -10,8 +10,13 @@
  ["src"]
 
  :aliases
- {:cljtest
+ {:dev
+  {:extra-paths ["test"]}
+  :cljtest
   {:extra-paths ["test"]
    :extra-deps  {com.cognitect/test-runner {:git/url "https://github.com/cognitect-labs/test-runner.git"
                                             :sha     "3cb0a9daf1cb746259dc8309b218f9211ad3b33b"}}
-   :main-opts   ["-m" "cognitect.test-runner"]}}}
+   :main-opts   ["-m" "cognitect.test-runner"]}
+  :uberjar
+  {:extra-deps {seancorfield/depstar {:mvn/version "1.0.94"}}
+   :main-opts  ["-m" "hf.depstar.uberjar"]}}}

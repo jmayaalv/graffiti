@@ -18,9 +18,12 @@
 
 (defn from-type+input
   [type input]
-  (keyword (name type) (-> (str (or (seq input) :none))
-                           (str/replace #"[#\{\}:\(\)]" "")
-                           (str/replace #"/" "_"))))
+  (let [name' (if (sequential? type)
+                (str type)
+                (name type))]
+   (keyword name' (-> (str (or (seq input) :none))
+                            (str/replace #"[#\{\}:\(\)]" "")
+                            (str/replace #"/" "_")))))
 
 (defn snake-fn
   [f k]
@@ -75,4 +78,3 @@
                    namespace)
         k-edn  (keyword k-ns+ k-name)]
     (eql-conformer k-edn)))
-
