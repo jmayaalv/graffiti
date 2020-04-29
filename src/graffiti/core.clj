@@ -8,8 +8,7 @@
             [com.wsscode.pathom.connect :as pc]
             [graffiti.resolver :as resolver]
             [graffiti.mutation :as mutation]
-            [graffiti.query :as query]
-            [clojure.core.async :as async]))
+            [graffiti.query :as query]))
 
 (defn compile
   [{:lacinia/keys [mutations raw-schema-update-fn resolver-map-update-fn]
@@ -68,4 +67,4 @@
 
 (defn eql
   [mesh query]
-  (async/<!! (query/eql mesh query)))
+  (query/eql mesh query))
