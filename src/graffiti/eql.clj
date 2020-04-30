@@ -2,15 +2,18 @@
   (:require [clojure.walk :as walk]
             [graffiti.keyword :as keyword]))
 
-(defn ^:private remove-nils
+(defn  remove-nils
   [q]
   (reduce
     (fn [m [k v]]
-      (if-not v
+      (if-not (if (sequential? v)
+                (->> v (filter (complement nil?)) seq)
+                v)
         (conj m k)
         (conj m {k (remove-nils v)})))
     []
     q))
+
 
 (defn from-selection-tree
   [options q]

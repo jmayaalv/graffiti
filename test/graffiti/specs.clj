@@ -11,7 +11,8 @@
 (gs/defentity designer
   {:designer/id        string?
    :designer/full-name string?
-   :designer/games     (s/coll-of game)})
+   :designer/games     (s/coll-of game)
+   :designer/main (s/nilable game)})
 
 (gs/defentity game
   {:game/id        string?

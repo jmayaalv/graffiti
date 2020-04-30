@@ -5,7 +5,8 @@
             [graffiti.query :as query]
             [com.wsscode.pathom.connect :as pc]
             [clojure.set :as set]
-            [clojure.walk :as walk]))
+            [clojure.walk :as walk]
+            [clojure.core.async :as async]))
 
 (defn ident
   [input output args]
@@ -26,6 +27,7 @@
 (defn resolver-results
   [ctx options eql-query]
   (->> (query/eql (select-keys ctx [:pathom/parser :pathom/env]) eql-query)
+       async/<!!
        vals
        (map #(eql/as-tree options %))
        (reduce merge)
@@ -36,6 +38,7 @@
   (fn [{:graffiti/keys [mesh] :as context}
        args
        value]
+
     (let [options   (:graffiti/options mesh)
           ident     (ident input output args)
           fields    (->> context

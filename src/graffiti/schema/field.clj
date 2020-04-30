@@ -11,8 +11,8 @@
   {:db.type/string  'String
    :db.type/boolean 'Boolean
    :db.type/double  'Float
-   :java.lang.Long  'Float
-   :db.type/long    'Float
+   :java.lang.Long  'Int
+   :db.type/long    'Int
    :db.type/float   'Float
    :db.type/instant 'String
    :db.type/uuid    'ID
@@ -25,7 +25,8 @@
   [x]
   (let [description (s/describe x)]
     (and (coll? description)
-         (boolean (map/find-first #(= % 'nilable) description)))))
+         (boolean (map/find-first #(or (= % 'nilable)
+                                       (= % 'coll-of)) description)))))
 
 (defn ^:private with-nillable-modifier
   [nilable? s]
@@ -37,7 +38,8 @@
   [ident object-map]
   (let [ref-kw    (keyword/from-ident ident)
         ref-type  (get object-map ref-kw)
-        ref-null? (nilable? ref-kw)]
+        ref-null? (or (nilable? ref-kw)
+                      (nilable? ident))]
     (with-nillable-modifier ref-null? ref-type)))
 
 (defn datomic-schema->lacinia-type
@@ -56,6 +58,8 @@
       (and many? (not null?)) (list 'non-null (list 'list value))
       many? (list 'list value)
       :else value)))
+
+
 
 (defn ^:private lacinia-type
   [object-map k]
@@ -105,4 +109,3 @@
        :resolve (keyword/from-type+input type params)}
       :args (and (some-> params seq)
                  (resolver-args options params)))))
-

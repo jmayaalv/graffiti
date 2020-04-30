@@ -32,7 +32,7 @@
 
 (t/deftest graphql-query
   (t/is
-    (match? (g/graphql mesh "{ book(id: \"1234\") { id title }}")
+    (match? (g/graphql mesh "{ book(id: \"1234\") { id title }}")q
             {:data {:book {:id    "1234"
                            :title "The Great Gatsby"}}})))
 
