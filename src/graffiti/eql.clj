@@ -4,15 +4,18 @@
 
 (defn  remove-nils
   [q]
-  (reduce
-    (fn [m [k v]]
-      (if-not (if (sequential? v)
-                (->> v (filter (complement nil?)) seq)
-                v)
-        (conj m k)
-        (conj m {k (remove-nils v)})))
-    []
-    q))
+  (->> (if (sequential? q) q [q])
+       (mapcat
+        #(reduce
+          (fn [m [k v]]
+            (if-not (if (sequential? v)
+                      (->> v (filter (complement nil?)) seq)
+                      v)
+              (conj m k)
+              (conj m {k (remove-nils v)})))
+          []
+          %))
+       vec))
 
 
 (defn from-selection-tree
